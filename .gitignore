@@ -1,1 +1,8 @@
-./infra/secrets/*
+infra/secrets/*
+
+*.terraform.*
+*.tfstate
+*.tfstate.*
+
+# don't push .tfvars
+*.tfvars
