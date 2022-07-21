@@ -10,17 +10,20 @@ terraform {
 #  Establish Google as a provider
 provider "google" {
   credentials = file("./secrets/terraform-demo-key.json")
-  project     = var.project_id
-  region      = var.project_region
-  zone        = var.project_zone
+  project = var.project_id
+  region = var.project_region
+  zone = var.project_zone
 }
 
 #  Enable the API for remote resource management
 resource "google_project_service" "gcp_resource_manager" {
   service = "cloudresourcemanager.googleapis.com"
 
-  # remove on destroy
+  # remove on destroy - All values can be dynamically set
   disable_on_destroy = true
+
+  # Some resources also have deletion protection by default, which prevents you from destorying resources
+  # deletion_protection = false
 }
 
 # Add the Cloud Run API
@@ -46,7 +49,6 @@ resource "google_cloud_run_service" "run_service" {
     }
   }
 
-  # Unique congiuration
   traffic {
     percent         = 100
     latest_revision = true
@@ -58,7 +60,8 @@ resource "google_cloud_run_service" "run_service" {
   ]
 }
 
-# We have to allow cloud run to be assessible to the entire web, which requires special permissions
+# We have to allow cloud run to be accessible to the entire web, which requires special permissions
+# This would be unique configuration for the resource.
 data "google_iam_policy" "noauth" {
   # Create the noauth policy data
   binding {
