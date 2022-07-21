@@ -1,4 +1,4 @@
-# Getting Started React
+# Getting Started w/ React
 
 If you need to know how to get started, you're _unforunately_ in the wrong project. Please visit [Create React App](https://github.com/facebook/create-react-app) for more information!
 
